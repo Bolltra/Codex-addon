@@ -1,0 +1,9 @@
+https://dl-cdn.alpinelinux.org
+https://dl-2.alpinelinux.org
+https://dl-3.alpinelinux.org
+https://dl-4.alpinelinux.org
+https://dl-5.alpinelinux.org
+https://nl.alpinelinux.org	https://nl.alpinelinux.org
+http://dl-cdn.alpinelinux.org
+http://dl-2.alpinelinux.org
+http://dl-3.alpinelinux.org
