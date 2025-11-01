@@ -1,0 +1,17 @@
+#!/usr/bin/with-contenv bashio
+set -euo pipefail
+
+PORT=7681
+SHELL_BIN="/bin/bash"
+
+if ! command -v ttyd >/dev/null 2>&1; then
+    bashio::log.fatal "ttyd saknas i containern."
+    exit 1
+fi
+
+if [ ! -x "${SHELL_BIN}" ]; then
+    SHELL_BIN="/bin/sh"
+fi
+
+bashio::log.info "Startar Codex Terminal (ttyd) pa port ${PORT}."
+exec ttyd --writable -p "${PORT}" -i 0.0.0.0 -s 0 "${SHELL_BIN}"
