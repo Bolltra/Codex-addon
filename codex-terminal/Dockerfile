@@ -4,7 +4,9 @@ FROM ${BUILD_FROM}
 ENV LANG=C.UTF-8 \
     S6_KEEP_ENV=1
 
-RUN apk add --no-cache \
+RUN sed -i 's|https://dl-cdn.alpinelinux.org|https://dl-2.alpinelinux.org|g' /etc/apk/repositories \
+    && apk update \
+    && apk add --no-cache \
         bash \
         curl \
         git \
