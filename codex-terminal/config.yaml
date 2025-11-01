@@ -14,7 +14,6 @@ panel_title: Codex CLI
 ingress: true
 ingress_port: 7681
 ingress_stream: true
-ingress_panel: true
 webui: http://[HOST]:[PORT:7681]
 ports:
   7681/tcp: null
