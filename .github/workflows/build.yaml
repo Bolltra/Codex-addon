@@ -20,13 +20,13 @@ jobs:
         include:
           - arch: amd64
             platform: linux/amd64
-            build_from: ghcr.io/home-assistant/amd64-base:3.19
+            build_from: ghcr.io/home-assistant/amd64-base-debian:bookworm
           - arch: aarch64
             platform: linux/arm64
-            build_from: ghcr.io/home-assistant/aarch64-base:3.19
+            build_from: ghcr.io/home-assistant/aarch64-base-debian:bookworm
           - arch: armv7
             platform: linux/arm/v7
-            build_from: ghcr.io/home-assistant/armv7-base:3.19
+            build_from: ghcr.io/home-assistant/armv7-base-debian:bookworm
     steps:
       - name: Checkout
         uses: actions/checkout@v4
