@@ -5,7 +5,7 @@ PORT=7681
 SHELL_BIN="/bin/bash"
 
 if ! command -v ttyd >/dev/null 2>&1; then
-    bashio::log.fatal "ttyd saknas i containern."
+    bashio::log.fatal "ttyd is missing inside the container."
     exit 1
 fi
 
@@ -13,5 +13,5 @@ if [ ! -x "${SHELL_BIN}" ]; then
     SHELL_BIN="/bin/sh"
 fi
 
-bashio::log.info "Startar Codex Terminal (ttyd) pa port ${PORT}."
-exec ttyd --writable -p "${PORT}" -i 0.0.0.0 -s 0 "${SHELL_BIN}"
+bashio::log.info "Starting Codex Terminal (ttyd) on port ${PORT}."
+exec ttyd --writable -p "${PORT}" -i 0.0.0.0 "${SHELL_BIN}"
