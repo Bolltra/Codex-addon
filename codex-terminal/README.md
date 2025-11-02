@@ -17,21 +17,23 @@ Codex Terminal exposes a ttyd-powered shell inside Home Assistant with the offic
 
 ## Configuration
 
-| Option      | Default | Description                                                          |
-|-------------|---------|----------------------------------------------------------------------|
-| `log_level` | `info`  | Controls Supervisor log verbosity (`info`, `debug`, `warning`, `error`). |
+| Option            | Default | Description                                                                 |
+|-------------------|---------|-----------------------------------------------------------------------------|
+| `log_level`       | `info`  | Controls Supervisor log verbosity (`info`, `debug`, `warning`, `error`).    |
+| `openai_api_key`  | *(empty)* | Optional API key used to authenticate automatically on startup (`codex login --with-api-key`). |
 
 ## Usage
 
 - Open the Ingress link to access the terminal session.
 - Codex CLI starts automatically (equivalent to running `codex`) when the terminal loads. Type `exit` to return to a plain shell.
-- On first use run `codex login` and follow the on-screen instructions to authenticate with OpenAI.
+- If you provided `openai_api_key`, the add-on authenticates automatically. Otherwise run `codex login` and follow the on-screen instructions (see “Headless login” note below).
 - Run `codex --help` for usage details (`codex` opens interactive mode, `codex --shell` generates shell commands, etc.).
 
 ## Troubleshooting
 
 - Review the add-on logs if the terminal fails to start.
 - If the CLI fails to start, ensure the add-on image is up to date or run `npm install -g @openai/codex` inside the container, then restart the add-on.
+- For headless ChatGPT sign-in, either tunnel port 1455 from the add-on container (e.g. via SSH or `docker exec` port forward) or authenticate on another machine and copy `$CODEX_HOME/auth.json` into the add-on (stored under `/data/codex`). Using `openai_api_key` is the simplest path in Home Assistant.
 
 ## Updating Codex CLI
 

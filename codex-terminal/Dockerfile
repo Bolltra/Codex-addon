@@ -5,7 +5,8 @@ ARG TTYD_VERSION="1.7.7"
 
 ENV LANG=C.UTF-8 \
     S6_KEEP_ENV=1 \
-    DEBIAN_FRONTEND=noninteractive
+    DEBIAN_FRONTEND=noninteractive \
+    CODEX_HOME=/data/codex
 
 RUN set -eux; \
     apt-get update; \

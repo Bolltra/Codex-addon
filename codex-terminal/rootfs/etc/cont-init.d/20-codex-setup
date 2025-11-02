@@ -1,0 +1,23 @@
+#!/usr/bin/with-contenv bashio
+set -euo pipefail
+
+bashio::log.info "Preparing Codex CLI environment."
+
+HOME_DIR="${CODEX_HOME:-/data/codex}"
+mkdir -p "${HOME_DIR}"
+chown root:root "${HOME_DIR}"
+chmod 700 "${HOME_DIR}"
+export CODEX_HOME="${HOME_DIR}"
+
+API_KEY="$(bashio::config 'openai_api_key')"
+if [ -n "${API_KEY}" ]; then
+    if [ ! -f "${HOME_DIR}/auth.json" ]; then
+        if HOME="${HOME_DIR}" echo "${API_KEY}" | codex login --with-api-key >/tmp/codex-login.log 2>&1; then
+            bashio::log.info "Codex CLI authenticated using provided API key."
+        else
+            bashio::log.warning "Failed to authenticate Codex CLI with provided API key. Check /tmp/codex-login.log for details."
+        fi
+    else
+        bashio::log.info "Auth credentials already present; skipping automatic login."
+    fi
+fi

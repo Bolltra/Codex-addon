@@ -26,8 +26,10 @@ map:
   - media:rw
 options:
   log_level: info
+  openai_api_key: ""
 schema:
   log_level: list(info|debug|warning|error)
+  openai_api_key: str?
 environment:
   LANG: C.UTF-8
 image: ghcr.io/bolltra/codex-terminal-{arch}
