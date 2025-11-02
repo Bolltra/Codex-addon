@@ -5,7 +5,8 @@ ARG TTYD_VERSION="1.7.7"
 
 ENV LANG=C.UTF-8 \
     S6_KEEP_ENV=1 \
-    DEBIAN_FRONTEND=noninteractive
+    DEBIAN_FRONTEND=noninteractive \
+    PATH="/opt/codex-env/bin:${PATH}"
 
 RUN set -eux; \
     apt-get update; \
@@ -30,8 +31,10 @@ RUN set -eux; \
         libxslt1-dev \
         libffi-dev \
         libssl-dev; \
-    pip3 install --no-cache-dir --upgrade pip; \
-    pip3 install --no-cache-dir codex-cli; \
+    python3 -m venv /opt/codex-env; \
+    /opt/codex-env/bin/pip install --no-cache-dir --upgrade pip; \
+    /opt/codex-env/bin/pip install --no-cache-dir codex-cli; \
+    ln -s /opt/codex-env/bin/codex /usr/local/bin/codex; \
     arch="$(dpkg --print-architecture)"; \
     case "${arch}" in \
         amd64) ttyd_asset="ttyd.x86_64" ;; \
