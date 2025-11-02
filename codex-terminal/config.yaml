@@ -32,4 +32,4 @@ schema:
   system_prompt: str?
 environment:
   LANG: C.UTF-8
-image: ghcr.io/bjornschmidt/codex-terminal-{arch}
+image: ghcr.io/bolltra/codex-terminal-{arch}

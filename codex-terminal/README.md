@@ -11,7 +11,7 @@ Codex Terminal exposes a ttyd-powered shell inside Home Assistant with the Codex
 ## Installation
 
 1. Add this repository under **Supervisor → Add-on Store → Add-on repositories**.
-2. Ensure the GitHub Actions workflow `Build Codex Terminal Add-on` has pushed the latest images to `ghcr.io/<your-username>/codex-terminal-<arch>`.
+2. Ensure the GitHub Actions workflow `Build Codex Terminal Add-on` has pushed the latest images to `ghcr.io/bolltra/codex-terminal-<arch>` (or your own namespace if you fork the project).
 3. Install “Codex Terminal” from the Add-on Store.
 4. Start the add-on and open the Ingress link to launch the terminal.
 
