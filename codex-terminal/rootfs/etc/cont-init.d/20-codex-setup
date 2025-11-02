@@ -3,7 +3,7 @@ set -euo pipefail
 
 bashio::log.info "Preparing Codex CLI environment."
 
-HOME_DIR="${CODEX_HOME:-/data/codex}"
+HOME_DIR="${CODEX_HOME:-/config/codex}"
 mkdir -p "${HOME_DIR}"
 chown root:root "${HOME_DIR}"
 chmod 700 "${HOME_DIR}"
@@ -20,4 +20,27 @@ if [ -n "${API_KEY}" ]; then
     else
         bashio::log.info "Auth credentials already present; skipping automatic login."
     fi
+fi
+
+AGENTS_FILE="${HOME_DIR}/AGENTS.md"
+if [ ! -f "${AGENTS_FILE}" ]; then
+    cat <<'EOF' > "${AGENTS_FILE}"
+# Codex Agent: Home Assistant Co-pilot
+
+You are Codex running inside a Home Assistant add-on. Primary goals:
+
+- Help inspect and modify Home Assistant configuration files (YAML, templates, integrations, blueprints).
+- Review and reason about Home Assistant logs, automations, scripts, and UI dashboards.
+- Suggest safe changes, highlighting any placeholders or secrets users must fill in.
+- When writing YAML automations, always include triggers, conditions, and actions with valid entity/service names.
+- Call out potential risks for device control, restarts, or destructive commands.
+- Provide shell commands only when explicitly requested, and default to explanations otherwise.
+
+Important directories:
+- `/config`: Home Assistant configuration root.
+- `/share`, `/media`, `/ssl`: shared data.
+
+When uncertain, ask clarifying questions before proposing changes.
+EOF
+    chmod 600 "${AGENTS_FILE}"
 fi

@@ -26,14 +26,14 @@ Codex Terminal exposes a ttyd-powered shell inside Home Assistant with the offic
 
 - Open the Ingress link to access the terminal session.
 - Codex CLI starts automatically (equivalent to running `codex`) when the terminal loads. Type `exit` to return to a plain shell.
-- If you provided `openai_api_key`, the add-on authenticates automatically. Otherwise run `codex login` and follow the on-screen instructions (see “Headless login” note below).
+- If you provided `openai_api_key`, the add-on authenticates automatically. Otherwise run `codex login` and follow the on-screen instructions (see “Headless login tips” below).
 - Run `codex --help` for usage details (`codex` opens interactive mode, `codex --shell` generates shell commands, etc.).
 
 ## Troubleshooting
 
 - Review the add-on logs if the terminal fails to start.
 - If the CLI fails to start, ensure the add-on image is up to date or run `npm install -g @openai/codex` inside the container, then restart the add-on.
-- For headless ChatGPT sign-in, either tunnel port 1455 from the add-on container (e.g. via SSH or `docker exec` port forward) or authenticate on another machine and copy `$CODEX_HOME/auth.json` into the add-on (stored under `/data/codex`). Using `openai_api_key` is the simplest path in Home Assistant.
+- For headless ChatGPT sign-in, either tunnel port 1455 from the add-on container (e.g. via SSH or `docker exec` port forward) or authenticate on another machine and copy `$CODEX_HOME/auth.json` into the add-on (stored under `/config/codex`). Using `openai_api_key` is the simplest path in Home Assistant.
 
 ## Updating Codex CLI
 
@@ -45,3 +45,9 @@ npm install -g @openai/codex
 ```
 
 Then restart the add-on so new sessions use the updated CLI.
+
+### Headless login tips
+
+- Authentication files live in `/config/codex` (`CODEX_HOME`). You can copy `auth.json` there via File Editor/Studio Code Server and restart the add-on.
+- On first run the add-on seeds an `AGENTS.md` file in the same directory with a Home Assistant-focused agent description that Codex loads automatically.
+- Prefer to authenticate elsewhere? Run `codex login` on another machine, then copy `~/.codex/auth.json` to `/config/codex/auth.json` and restart the add-on.

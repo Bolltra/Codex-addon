@@ -12,14 +12,9 @@ TTY_CMD="/bin/bash"
 TTY_ARGS=""
 
 if command -v codex >/dev/null 2>&1; then
-    TTY_ARGS="-lc codex"
+    bashio::log.info "Starting Codex Terminal (ttyd) on port ${PORT} with Codex CLI." 
+    exec ttyd --writable -p "${PORT}" -i 0.0.0.0 /bin/bash -lc "cd /config && codex"
 else
-    bashio::log.warning "codex CLI not found in PATH; launching plain shell."
-fi
-
-bashio::log.info "Starting Codex Terminal (ttyd) on port ${PORT}."
-if [ -n "${TTY_ARGS}" ]; then
-    exec ttyd --writable -p "${PORT}" -i 0.0.0.0 "${TTY_CMD}" ${TTY_ARGS}
-else
-    exec ttyd --writable -p "${PORT}" -i 0.0.0.0 "${TTY_CMD}"
+    bashio::log.warning "codex CLI not found in PATH; launching shell in /config."
+    exec ttyd --writable -p "${PORT}" -i 0.0.0.0 /bin/bash -lc "cd /config && exec /bin/bash"
 fi
