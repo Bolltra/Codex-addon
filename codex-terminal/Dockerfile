@@ -12,10 +12,22 @@ RUN apk update \
         python3 \
         py3-pip \
         ttyd \
-    && apk add --no-cache gcc musl-dev python3-dev \
+    && apk add --no-cache --virtual .build-deps \
+        build-base \
+        python3-dev \
+        jpeg-dev \
+        zlib-dev \
+        freetype-dev \
+        lcms2-dev \
+        openjpeg-dev \
+        tiff-dev \
+        libpng-dev \
+        libwebp-dev \
+        libffi-dev \
+        openssl-dev \
     && pip3 install --no-cache-dir --upgrade pip \
     && pip3 install --no-cache-dir codex-cli \
-    && apk del gcc musl-dev python3-dev \
+    && apk del .build-deps \
     && rm -rf /var/cache/apk/*
 
 COPY rootfs/ /
