@@ -13,5 +13,7 @@ if [ ! -x "${SHELL_BIN}" ]; then
     SHELL_BIN="/bin/sh"
 fi
 
+export PATH="/opt/codex-env/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
 bashio::log.info "Starting Codex Terminal (ttyd) on port ${PORT}."
 exec ttyd --writable -p "${PORT}" -i 0.0.0.0 "${SHELL_BIN}"
