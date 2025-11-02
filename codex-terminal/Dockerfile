@@ -5,20 +5,32 @@ ENV LANG=C.UTF-8 \
     S6_KEEP_ENV=1
 
 RUN set -eux; \
-    mirrors='https://dl-cdn.alpinelinux.org https://dl-2.alpinelinux.org https://dl-3.alpinelinux.org https://mirror.leaseweb.com/alpine https://mirror1.hs-esslingen.de/pub/Mirrors/alpine'; \
+    if [ -f /defaults/etc/apk/repositories ]; then \
+        cp /defaults/etc/apk/repositories /etc/apk/repositories; \
+    fi; \
     success=0; \
-    for mirror in $mirrors; do \
-        echo "$mirror/alpine/latest-stable/main" > /etc/apk/repositories; \
-        echo "$mirror/alpine/latest-stable/community" >> /etc/apk/repositories; \
+    if [ -f /etc/apk/repositories ]; then \
+        echo "Trying default repositories"; \
         if apk update; then \
             success=1; \
-            break; \
         fi; \
-        echo "Mirror $mirror failed, trying next..." >&2; \
-        sleep 2; \
-    done; \
+    fi; \
     if [ $success -ne 1 ]; then \
-        echo "All Alpine mirrors failed" >&2; \
+        echo "Switching to fallback mirrors"; \
+        mirrors='https://dl-cdn.alpinelinux.org https://dl-2.alpinelinux.org https://dl-3.alpinelinux.org https://mirror.leaseweb.com/alpine https://mirror1.hs-esslingen.de/pub/Mirrors/alpine'; \
+        for mirror in $mirrors; do \
+            echo "$mirror/alpine/v3.19/main" > /etc/apk/repositories; \
+            echo "$mirror/alpine/v3.19/community" >> /etc/apk/repositories; \
+            if apk update; then \
+                success=1; \
+                break; \
+            fi; \
+            echo "Mirror $mirror failed, trying next..." >&2; \
+            sleep 2; \
+        done; \
+    fi; \
+    if [ $success -ne 1 ]; then \
+        echo "All attempts to reach Alpine repositories failed" >&2; \
         exit 1; \
     fi; \
     apk add --no-cache \
