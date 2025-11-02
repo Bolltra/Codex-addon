@@ -35,7 +35,9 @@ jobs:
         id: meta
         run: |
           version=$(grep '^version:' codex-terminal/config.yaml | head -1 | cut -d '"' -f2)
+          owner=$(echo "${GITHUB_REPOSITORY_OWNER?}" | tr '[:upper:]' '[:lower:]')
           echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "owner=$owner" >> "$GITHUB_OUTPUT"
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -60,5 +62,5 @@ jobs:
           build-args: |
             BUILD_FROM=${{ matrix.build_from }}
           tags: |
-            ghcr.io/${{ github.repository_owner }}/codex-terminal-${{ matrix.arch }}:${{ steps.meta.outputs.version }}
-            ghcr.io/${{ github.repository_owner }}/codex-terminal-${{ matrix.arch }}:latest
+            ghcr.io/${{ steps.meta.outputs.owner }}/codex-terminal-${{ matrix.arch }}:${{ steps.meta.outputs.version }}
+            ghcr.io/${{ steps.meta.outputs.owner }}/codex-terminal-${{ matrix.arch }}:latest
