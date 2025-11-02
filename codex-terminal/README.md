@@ -1,11 +1,11 @@
 # Codex Terminal Add-on
 
-Codex Terminal exposes a ttyd-powered shell inside Home Assistant with the Codex CLI ready to use. The goal is to let you build and troubleshoot automations, inspect logs, and iterate on configuration without leaving the Home Assistant UI.
+Codex Terminal exposes a ttyd-powered shell inside Home Assistant with the official OpenAI Codex CLI (`@openai/codex`) preinstalled. The goal is to let you build and troubleshoot automations, inspect logs, and iterate on configuration without leaving the Home Assistant UI.
 
 ## Features
 
 - Web terminal served through Home Assistant Ingress (no extra ports required).
-- Codex CLI preinstalled inside an isolated virtual environment.
+- Codex CLI (`npm install -g @openai/codex`) preinstalled and auto-launched on session start.
 - Shared access to core Home Assistant folders (`config`, `share`, `ssl`, `media`).
 
 ## Installation
@@ -17,32 +17,29 @@ Codex Terminal exposes a ttyd-powered shell inside Home Assistant with the Codex
 
 ## Configuration
 
-| Option          | Default | Description                                                                  |
-|-----------------|---------|------------------------------------------------------------------------------|
-| `log_level`     | `info`  | Controls Supervisor log verbosity (`info`, `debug`, `warning`, `error`).     |
-| `system_prompt` | helper prompt text | System prompt injected when Codex CLI sessions start (edit to customize assistant behaviour). |
+| Option      | Default | Description                                                          |
+|-------------|---------|----------------------------------------------------------------------|
+| `log_level` | `info`  | Controls Supervisor log verbosity (`info`, `debug`, `warning`, `error`). |
 
 ## Usage
 
 - Open the Ingress link to access the terminal session.
-- You are logged in as `root` and the Codex CLI is exposed on `PATH` via `/opt/codex-env/bin/codex`.
-- Run `codex --help` to discover available commands or start chatting with `codex chat`.
-- The configured system prompt is available as the environment variable `CODEX_SYSTEM_PROMPT` and in `/etc/codex/system_prompt.txt`.
+- Codex CLI starts automatically (equivalent to running `codex`) when the terminal loads. Type `exit` to return to a plain shell.
+- On first use run `codex login` and follow the on-screen instructions to authenticate with OpenAI.
+- Run `codex --help` for usage details (`codex` opens interactive mode, `codex --shell` generates shell commands, etc.).
 
 ## Troubleshooting
 
 - Review the add-on logs if the terminal fails to start.
-- Restarting the add-on reinstalls Python dependencies in the virtual environment if anything becomes corrupted.
+- If the CLI fails to start, ensure the add-on image is up to date or run `npm install -g @openai/codex` inside the container, then restart the add-on.
 
 ## Updating Codex CLI
 
-- The GitHub Actions workflow runs weekly (Monday 03:00 UTC) to rebuild images, automatically pulling the latest available `codex-cli` from PyPI.
-- For an on-demand upgrade inside a running container, open the terminal and run:
+- The GitHub Actions workflow runs weekly (Monday 03:00 UTC) to rebuild images, automatically installing the latest `@openai/codex` release from npm.
+- For an on-demand upgrade inside a running container, run:
 
 ```bash
-source /opt/codex-env/bin/activate
-pip install --no-cache-dir --upgrade codex-cli
-deactivate
+npm install -g @openai/codex
 ```
 
-Restart the add-on after manual upgrades so future sessions pick up the updated binaries.
+Then restart the add-on so new sessions use the updated CLI.

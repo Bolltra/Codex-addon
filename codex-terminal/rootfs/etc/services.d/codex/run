@@ -2,18 +2,24 @@
 set -euo pipefail
 
 PORT=7681
-SHELL_BIN="/bin/bash"
 
 if ! command -v ttyd >/dev/null 2>&1; then
     bashio::log.fatal "ttyd is missing inside the container."
     exit 1
 fi
 
-if [ ! -x "${SHELL_BIN}" ]; then
-    SHELL_BIN="/bin/sh"
+TTY_CMD="/bin/bash"
+TTY_ARGS=""
+
+if command -v codex >/dev/null 2>&1; then
+    TTY_ARGS="-lc codex"
+else
+    bashio::log.warning "codex CLI not found in PATH; launching plain shell."
 fi
 
-export PATH="/opt/codex-env/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-
 bashio::log.info "Starting Codex Terminal (ttyd) on port ${PORT}."
-exec ttyd --writable -p "${PORT}" -i 0.0.0.0 "${SHELL_BIN}"
+if [ -n "${TTY_ARGS}" ]; then
+    exec ttyd --writable -p "${PORT}" -i 0.0.0.0 "${TTY_CMD}" ${TTY_ARGS}
+else
+    exec ttyd --writable -p "${PORT}" -i 0.0.0.0 "${TTY_CMD}"
+fi

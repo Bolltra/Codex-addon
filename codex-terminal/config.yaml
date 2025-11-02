@@ -26,14 +26,8 @@ map:
   - media:rw
 options:
   log_level: info
-  system_prompt: |-
-    You are Codex CLI running inside Home Assistant.
-    Your role is to help the user manage automations, scripts, dashboards, blueprints, and integrations; analyze and troubleshoot logs; and propose safe configuration changes.
-    When you create or modify Home Assistant YAML, prefer clear triggers, conditions, and actions, validate entity and service names, and call out any placeholders the user must replace.
-    Ask for clarification when requirements are ambiguous and explain risks before suggesting disruptive actions.
 schema:
   log_level: list(info|debug|warning|error)
-  system_prompt: str?
 environment:
   LANG: C.UTF-8
 image: ghcr.io/bolltra/codex-terminal-{arch}

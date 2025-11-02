@@ -5,8 +5,7 @@ ARG TTYD_VERSION="1.7.7"
 
 ENV LANG=C.UTF-8 \
     S6_KEEP_ENV=1 \
-    DEBIAN_FRONTEND=noninteractive \
-    PATH="/opt/codex-env/bin:${PATH}"
+    DEBIAN_FRONTEND=noninteractive
 
 RUN set -eux; \
     apt-get update; \
@@ -14,27 +13,13 @@ RUN set -eux; \
         ca-certificates \
         curl \
         git \
-        python3 \
-        python3-venv \
-        python3-pip \
-        python3-dev \
-        build-essential \
-        pkg-config \
-        libjpeg-dev \
-        zlib1g-dev \
-        libfreetype6-dev \
-        liblcms2-dev \
-        libopenjp2-7-dev \
-        libtiff-dev \
-        libwebp-dev \
-        libpng-dev \
-        libxslt1-dev \
-        libffi-dev \
-        libssl-dev; \
-    python3 -m venv /opt/codex-env; \
-    /opt/codex-env/bin/pip install --no-cache-dir --upgrade pip; \
-    /opt/codex-env/bin/pip install --no-cache-dir codex-cli; \
-    ln -s /opt/codex-env/bin/codex /usr/local/bin/codex; \
+        gnupg; \
+    curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /usr/share/keyrings/nodesource.gpg; \
+    echo "deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" > /etc/apt/sources.list.d/nodesource.list; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends nodejs; \
+    npm install -g @openai/codex; \
+    npm cache clean --force; \
     arch="$(dpkg --print-architecture)"; \
     case "${arch}" in \
         amd64) ttyd_asset="ttyd.x86_64" ;; \
@@ -47,7 +32,7 @@ RUN set -eux; \
     curl -L -o /tmp/ttyd "https://github.com/tsl0922/ttyd/releases/download/${TTYD_VERSION}/${ttyd_asset}"; \
     install -m 0755 /tmp/ttyd /usr/local/bin/ttyd; \
     rm -f /tmp/ttyd; \
-    apt-get purge -y build-essential python3-dev pkg-config; \
+    apt-get purge -y gnupg; \
     apt-get autoremove -y; \
     apt-get clean; \
     rm -rf /var/lib/apt/lists/*
