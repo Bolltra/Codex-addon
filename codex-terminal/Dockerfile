@@ -5,13 +5,11 @@ ENV LANG=C.UTF-8 \
     S6_KEEP_ENV=1
 
 RUN set -eux; \
-    mirrors="https://dl-cdn.alpinelinux.org https://dl-2.alpinelinux.org https://dl-3.alpinelinux.org https://mirror.leaseweb.com/alpine https://mirror1.hs-esslingen.de/pub/Mirrors/alpine"; \
+    mirrors='https://dl-cdn.alpinelinux.org https://dl-2.alpinelinux.org https://dl-3.alpinelinux.org https://mirror.leaseweb.com/alpine https://mirror1.hs-esslingen.de/pub/Mirrors/alpine'; \
     success=0; \
     for mirror in $mirrors; do \
-        cat <<EOF > /etc/apk/repositories
-$mirror/alpine/latest-stable/main
-$mirror/alpine/latest-stable/community
-EOF
+        echo "$mirror/alpine/latest-stable/main" > /etc/apk/repositories; \
+        echo "$mirror/alpine/latest-stable/community" >> /etc/apk/repositories; \
         if apk update; then \
             success=1; \
             break; \
