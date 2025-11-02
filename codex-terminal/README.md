@@ -11,8 +11,9 @@ Codex Terminal ger dig en webbaserad terminal (ttyd) inne i Home Assistant med C
 ## Installation
 
 1. Lagga till det har repositoriet i Home Assistant Supervisor under "Add-on store" > "Add-on repositories".
-2. Hitta och installera "Codex Terminal".
-3. Oppna tillagget och starta det. Ingress-lanken visas i gransen.
+2. Se till att GitHub Actions-workflowen `Build Codex Terminal Add-on` har korn och publicerat aktuella containerbilder till `ghcr.io/<ditt-anvandarnamn>/codex-terminal-<arch>`.
+3. Hitta och installera "Codex Terminal".
+4. Oppna tillagget och starta det. Ingress-lanken visas i gransen.
 
 ## Konfiguration
 

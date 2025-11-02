@@ -19,6 +19,7 @@
   "options": {"log_level": "info"},
   "schema": {"log_level": "list(info|debug|warning|error)"},
   "environment": {"LANG": "C.UTF-8"},
+  "image": "ghcr.io/bjornschmidt/codex-terminal-{arch}",
   "url": "https://github.com/bjornschmidt/Codex-addon/tree/main/codex-terminal",
   "documentation": "https://github.com/bjornschmidt/Codex-addon/blob/main/codex-terminal/README.md"
 }

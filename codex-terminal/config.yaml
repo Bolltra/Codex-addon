@@ -30,3 +30,4 @@ schema:
   log_level: list(info|debug|warning|error)
 environment:
   LANG: C.UTF-8
+image: ghcr.io/bjornschmidt/codex-terminal-{arch}
