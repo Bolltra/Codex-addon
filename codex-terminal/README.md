@@ -20,13 +20,14 @@ Codex Terminal exposes a ttyd-powered shell inside Home Assistant with the Codex
 | Option          | Default | Description                                                                  |
 |-----------------|---------|------------------------------------------------------------------------------|
 | `log_level`     | `info`  | Controls Supervisor log verbosity (`info`, `debug`, `warning`, `error`).     |
-| `system_prompt` | *(blank)* | Optional default system prompt injected when Codex CLI sessions start.        |
+| `system_prompt` | helper prompt text | System prompt injected when Codex CLI sessions start (edit to customize assistant behaviour). |
 
 ## Usage
 
 - Open the Ingress link to access the terminal session.
 - You are logged in as `root` and the Codex CLI is exposed on `PATH` via `/opt/codex-env/bin/codex`.
 - Run `codex --help` to discover available commands or start chatting with `codex chat`.
+- The configured system prompt is available as the environment variable `CODEX_SYSTEM_PROMPT` and in `/etc/codex/system_prompt.txt`.
 
 ## Troubleshooting
 

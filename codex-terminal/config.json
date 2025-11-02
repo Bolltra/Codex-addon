@@ -16,7 +16,7 @@
   "ports": {"7681/tcp": null},
   "ports_description": {"7681/tcp": "Webterminal (ttyd)"},
   "map": ["config:rw", "share:rw", "ssl:ro", "media:rw"],
-  "options": {"log_level": "info", "system_prompt": ""},
+  "options": {"log_level": "info", "system_prompt": "You are Codex CLI running inside Home Assistant.\nYour role is to help the user manage automations, scripts, dashboards, blueprints, and integrations; analyze and troubleshoot logs; and propose safe configuration changes.\nWhen you create or modify Home Assistant YAML, prefer clear triggers, conditions, and actions, validate entity and service names, and call out any placeholders the user must replace.\nAsk for clarification when requirements are ambiguous and explain risks before suggesting disruptive actions."},
   "schema": {"log_level": "list(info|debug|warning|error)", "system_prompt": "str?"},
   "environment": {"LANG": "C.UTF-8"},
   "image": "ghcr.io/bolltra/codex-terminal-{arch}",

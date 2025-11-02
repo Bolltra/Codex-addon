@@ -10,12 +10,12 @@ PROMPT="$(bashio::config 'system_prompt')"
 
 if [ -n "${PROMPT}" ]; then
     printf '%s\n' "${PROMPT}" > "${PROMPT_FILE}"
-    cat <<'EOF' > "${PROFILE_SNIPPET}"
+    cat <<'EOS' > "${PROFILE_SNIPPET}"
 #!/bin/sh
 if [ -f /etc/codex/system_prompt.txt ]; then
     export CODEX_SYSTEM_PROMPT="$(cat /etc/codex/system_prompt.txt)"
 fi
-EOF
+EOS
     chmod 644 "${PROMPT_FILE}" "${PROFILE_SNIPPET}"
 else
     rm -f "${PROMPT_FILE}" "${PROFILE_SNIPPET}"
