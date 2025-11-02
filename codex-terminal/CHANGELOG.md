@@ -1,3 +1,8 @@
+## 0.2.0
+- Codex CLI now runs directly from `/config`, auto-launching in the terminal while preserving credentials under `/config/codex`.
+- Added `AGENTS.md` seeding with a Home Assistant-focused system prompt and optional automatic login via `openai_api_key`.
+- Branded add-on icon for Home Assistant UI and an end-user README overhaul with detailed setup steps.
+
 ## 0.1.1
 - Added GHCR-backed build pipeline and switched to a Debian-based runtime for more reliable dependencies.
 - Install Node.js and bundle the official `@openai/codex` CLI globally; ttyd is still provided per architecture.
