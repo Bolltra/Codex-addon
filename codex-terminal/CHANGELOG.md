@@ -1,6 +1,6 @@
 ## 0.1.1
-- Lagt till GHCR-baserad byggkedja och bytt till Debian-baserad runtime for stabilare beroenden.
-- Installerar codex-cli i en isolerad virtualenv och hanterar ttyd som fristaende release-binari.
+- Added GHCR-backed build pipeline and switched to a Debian-based runtime for more reliable dependencies.
+- Install Codex CLI inside an isolated virtual environment and bundle the ttyd release binary per architecture.
 
 ## 0.1.0
-- Initial version av Codex Terminal add-on.
+- Initial Codex Terminal add-on release.

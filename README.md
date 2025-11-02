@@ -1,21 +1,21 @@
 # Codex Home Assistant Add-ons
 
-Detta repo innehaller en Home Assistant add-on for att kora Codex CLI i en webbaserad terminal. Installera det har repositoriet i Home Assistant for att komma at tillagget via Supervisor.
+This repository hosts Home Assistant add-ons that expose the Codex CLI inside a web-based terminal. Add the repository to your Home Assistant Supervisor instance to access the add-on through the Add-on Store.
 
 ## Add-ons
 
-- [Codex Terminal](./codex-terminal) - Installerar en webterminal (ttyd) med Codex CLI for att kunna kora kommandon direkt fran Home Assistant.
+- [Codex Terminal](./codex-terminal) – Provides a ttyd-powered web terminal with the Codex CLI preinstalled so you can run commands directly from Home Assistant.
 
-## Anvandning
+## Usage
 
-1. Lagga till detta repo som en extern add-on katalog i Home Assistant.
-2. Installera "Codex Terminal" fran listan av tillagg.
-3. Starta tillagget och oppna webUI for att fa en terminal med `codex` CLI forhandsinstallerad.
+1. Add this repository as an external add-on source in Home Assistant.
+2. Install “Codex Terminal” from the list of available add-ons.
+3. Start the add-on and open the web UI to access a terminal session with the `codex` CLI ready to go.
 
-Mer information om varje add-on finns i respektive katalog.
+Each add-on includes additional documentation in its own folder.
 
-## Bygg och publicera containerbilder
+## Building and publishing container images
 
-Add-onen ar konfigurerad for att anvanda forbyggda containerbilder fran GitHub Container Registry (GHCR). Workflowen `.github/workflows/build.yaml` bygger och pusha en bild per arkitektur (amd64, aarch64, armv7) varje gang kod i `codex-terminal/` andras eller nar workflowen triggas manuellt.
+The add-on uses prebuilt container images published to GitHub Container Registry (GHCR). The workflow `.github/workflows/build.yaml` builds and pushes one image per architecture (amd64, aarch64, armv7) whenever code in `codex-terminal/` changes or when the workflow is triggered manually.
 
-Standardkonfigurationen anvander GitHubs inbyggda `GITHUB_TOKEN` for att publicera bilder till `ghcr.io/<ditt-anvandarnamn>/codex-terminal-<arch>`. Se till att repo:t ar publikt (eller att du har aktiverat Packages-skrivrattigheter pa `GITHUB_TOKEN`) och kontrollera att workflowen kornar minst en gang innan du installerar tillagget i Home Assistant, annars finns ingen bild att dra.
+By default the workflow uses GitHub’s `GITHUB_TOKEN` to publish images to `ghcr.io/<your-username>/codex-terminal-<arch>`. Ensure the repository is public (or that Packages write permissions are granted to the token) and run the workflow at least once before installing the add-on so that Home Assistant can pull the image. A weekly scheduled run keeps the images fresh with the latest `codex-cli` release from PyPI.

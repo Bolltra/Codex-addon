@@ -7,6 +7,8 @@ on:
     paths:
       - 'codex-terminal/**'
       - '.github/workflows/build.yaml'
+  schedule:
+    - cron: '0 3 * * 1'
   workflow_dispatch:
 
 jobs:

@@ -1,7 +1,7 @@
 name: Codex Terminal
 version: "0.1.1"
 slug: codex-terminal
-description: Webterminal med forinstallerad Codex CLI.
+description: Web terminal with preinstalled Codex CLI.
 arch:
   - amd64
   - aarch64
@@ -26,8 +26,10 @@ map:
   - media:rw
 options:
   log_level: info
+  system_prompt: ""
 schema:
   log_level: list(info|debug|warning|error)
+  system_prompt: str?
 environment:
   LANG: C.UTF-8
 image: ghcr.io/bjornschmidt/codex-terminal-{arch}

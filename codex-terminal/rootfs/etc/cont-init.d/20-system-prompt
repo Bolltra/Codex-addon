@@ -1,0 +1,22 @@
+#!/usr/bin/with-contenv bashio
+set -euo pipefail
+
+PROMPT_FILE="/etc/codex/system_prompt.txt"
+PROFILE_SNIPPET="/etc/profile.d/80-codex-system-prompt.sh"
+
+mkdir -p "$(dirname "${PROMPT_FILE}")"
+
+PROMPT="$(bashio::config 'system_prompt')"
+
+if [ -n "${PROMPT}" ]; then
+    printf '%s\n' "${PROMPT}" > "${PROMPT_FILE}"
+    cat <<'EOF' > "${PROFILE_SNIPPET}"
+#!/bin/sh
+if [ -f /etc/codex/system_prompt.txt ]; then
+    export CODEX_SYSTEM_PROMPT="$(cat /etc/codex/system_prompt.txt)"
+fi
+EOF
+    chmod 644 "${PROMPT_FILE}" "${PROFILE_SNIPPET}"
+else
+    rm -f "${PROMPT_FILE}" "${PROFILE_SNIPPET}"
+fi
