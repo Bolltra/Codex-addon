@@ -17,16 +17,20 @@ Codex Terminal exposes a ttyd-powered shell inside Home Assistant with the offic
 
 ## Configuration
 
-| Option            | Default | Description                                                                 |
-|-------------------|---------|-----------------------------------------------------------------------------|
-| `log_level`       | `info`  | Controls Supervisor log verbosity (`info`, `debug`, `warning`, `error`).    |
-| `openai_api_key`  | *(empty)* | Optional API key used to authenticate automatically on startup (`codex login --with-api-key`). |
+| Option            | Default   | Description                                                                                                  |
+|-------------------|-----------|----------------------------------------------------------------------------------------------------------------|
+| `log_level`       | `info`    | Controls Supervisor log verbosity (`info`, `debug`, `warning`, `error`).                                     |
+| `openai_api_key`  | *(empty)* | Optional API key used to authenticate automatically on startup (`codex login --with-api-key`).               |
+| `full_auto`       | `false`   | When `true`, Codex launches with `--full-auto` (no approval prompts, workspace write sandbox). Use carefully.  |
+| `start_mode`      | `new`     | `new` starts a fresh session; `resume` runs `codex resume --last` so you continue where you left off.          |
 
 ## Usage
 
 - Open the Ingress link to access the terminal session.
 - Codex CLI starts automatically (equivalent to running `codex`) when the terminal loads. Type `exit` to return to a plain shell.
 - If you provided `openai_api_key`, the add-on authenticates automatically. Otherwise run `codex login` and follow the on-screen instructions (see “Headless login tips” below).
+- Toggle `full_auto` if you want Codex to execute commands without prompting. This skips approval prompts but still runs inside Codex's sandbox.
+- Set `start_mode` to `resume` if you always want to continue the latest session (`codex resume --last`).
 - Run `codex --help` for usage details (`codex` opens interactive mode, `codex --shell` generates shell commands, etc.).
 
 ## Troubleshooting

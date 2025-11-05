@@ -1,5 +1,5 @@
 name: Codex Terminal
-version: "0.2.0"
+version: "0.3.0"
 slug: codex-terminal
 description: Web terminal with preinstalled Codex CLI.
 icon: icon.png
@@ -28,9 +28,13 @@ map:
 options:
   log_level: info
   openai_api_key: ""
+  full_auto: false
+  start_mode: new
 schema:
   log_level: list(info|debug|warning|error)
   openai_api_key: str?
+  full_auto: bool?
+  start_mode: list(new|resume)
 environment:
   LANG: C.UTF-8
 image: ghcr.io/bolltra/codex-terminal-{arch}

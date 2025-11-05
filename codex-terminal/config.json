@@ -1,6 +1,6 @@
 {
   "name": "Codex Terminal",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "slug": "codex-terminal",
   "description": "Web terminal with preinstalled Codex CLI.",
   "arch": ["amd64", "aarch64", "armv7"],
@@ -16,8 +16,8 @@
   "ports": {"7681/tcp": null},
   "ports_description": {"7681/tcp": "Webterminal (ttyd)"},
   "map": ["config:rw", "share:rw", "ssl:ro", "media:rw"],
-  "options": {"log_level": "info", "openai_api_key": ""},
-  "schema": {"log_level": "list(info|debug|warning|error)", "openai_api_key": "str?"},
+  "options": {"log_level": "info", "openai_api_key": "", "full_auto": false, "start_mode": "new"},
+  "schema": {"log_level": "list(info|debug|warning|error)", "openai_api_key": "str?", "full_auto": "bool?", "start_mode": "list(new|resume)"},
   "environment": {"LANG": "C.UTF-8"},
   "image": "ghcr.io/bolltra/codex-terminal-{arch}",
   "url": "https://github.com/bjornschmidt/Codex-addon/tree/main/codex-terminal",
