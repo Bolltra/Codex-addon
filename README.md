@@ -12,8 +12,8 @@ Bring the official OpenAI Codex CLI straight into Home Assistant. The add-on shi
 - Uses the official `@openai/codex` package; ttyd starts `codex` automatically.
 - Full access to `/config`, `/share`, `/media`, and `/ssl` so you can review or edit automations on the fly.
 - Credentials and agent prompt stored under `/config/codex` – easy to back up or tweak with File Editor/Studio Code Server.
-- Optional automatic login using an OpenAI API key; manual ChatGPT login also supported.
-- Start mode toggle: launch a fresh session or resume the last one automatically.
+- Optional automatic login using an OpenAI API key; ChatGPT login by copying credentials from another machine is recommended for Plus/Pro/Team users.
+- Start mode toggle: launch a fresh session or open the session picker to resume a previous one.
 - Full-auto toggle to let Codex execute without per-command approval.
 - Codex CLI installs into `/config/codex/.npm-global`, so in-session updates persist across add-on restarts.
 
@@ -29,13 +29,12 @@ Bring the official OpenAI Codex CLI straight into Home Assistant. The add-on shi
 
 ## Installation
 
-1. **Add this repository** in Home Assistant: `Settings → Add-ons → Add-on store → ⋮ → Repositories` and paste
+1. In Home Assistant, go to `Settings → Add-ons → Add-on store → ⋮ → Repositories` and add:
    ```
    https://github.com/Bolltra/Codex-addon
    ```
-2. Search for **“Codex Terminal”** and press **Install**.
-3. Open the add-on page and review the configuration (see below).
-4. Press **Start**, then **Open Web UI**. The web terminal launches `codex` immediately.
+2. Search for **“Codex Terminal”**, press **Install**, then review the configuration (below).
+3. Press **Start** and **Open Web UI**. The web terminal launches `codex` immediately.
 
 > Tip: Pin the add-on to the sidebar for quick access.
 
@@ -49,23 +48,23 @@ The add-on exposes the following options (UI → Configuration tab):
 |-------------------|--------------------------------------------------------------------------------------------------------------|
 | `log_level`       | Supervisor log level (`info`, `debug`, `warning`, `error`).                                                  |
 | `openai_api_key`  | Optional – paste an OpenAI API key to auto-login on start via `codex login --with-api-key`.                  |
-| `start_mode`      | `new` launches a fresh session; `resume` runs `codex resume --last` so you continue where you left off.       |
+| `start_mode`      | `new` starts fresh; `resume` opens the session picker (press `Esc` there to start a new session).             |
 | `full_auto`       | When `true`, Codex starts with `--full-auto` (executes without approval prompts, still within Codex sandbox). |
 
 ### Authentication options
 
-Choose **one** of the following:
+Choose **one** of the following (ChatGPT auth is recommended if you have Plus/Pro/Team):
 
-**A. API key (usage-based billing)**
+**A. ChatGPT login (recommended for Plus/Pro/Team)**
+1. Install the Codex CLI on another machine (`npm install -g @openai/codex`).
+2. Run `codex login` there and complete the browser flow.
+3. Copy the resulting `~/.codex/auth.json` to `/config/codex/auth.json` on Home Assistant (e.g. via File Editor/VS Code).
+4. Restart the add-on. Codex starts authenticated without interactive login inside HA.
+
+**B. API key (usage-based billing)**
 1. Create an API key in the OpenAI dashboard that can access the Responses API.
 2. Paste the key into `openai_api_key` in the add-on configuration and save.
 3. Start/restart the add-on. It logs in automatically and writes credentials to `/config/codex/auth.json`.
-
-**B. ChatGPT login (interactive, no API key)**
-1. Install the Codex CLI on your computer (`npm install -g @openai/codex`).
-2. Run `codex login`, complete the browser flow, and confirm `~/.codex/auth.json` appears.
-3. Copy that file to your Home Assistant machine (e.g. via File Editor/VS Code) and place it at `/config/codex/auth.json`.
-4. Restart the add-on. Codex now starts authenticated.
 
 > You can repeat these steps any time to refresh credentials. The add-on never exposes secrets to other containers.
 
@@ -85,13 +84,7 @@ You can store additional prompt snippets or reference YAML files in the same fol
 
 1. Start the add-on and click **Open Web UI**.
 2. A ttyd terminal opens and immediately runs `codex` from `/config`.
-3. Interact as usual:
-   ```
-   codex           # start/continue interactive session
-   codex --help    # list subcommands
-   codex --shell "write an automation that..."  # single-shot prompts
-   ```
-4. Type `exit` to drop back to a plain shell (still rooted in `/config`).
+3. Codex starts automatically and stays in Codex; exiting the process closes the terminal. 
 
 > When the Ingress session starts Codex checks for updates and can install them automatically. Updates are written to `/config/codex/.npm-global` and persist across add-on restarts.
 
@@ -103,16 +96,12 @@ Credentials (`auth.json`) and prompts (`AGENTS.md`) persist under `/config/codex
 
 ---
 
-## Troubleshooting
+## Authentication & headless login
 
-| Symptom | Suggested fix |
-|---------|----------------|
-| `codex` says “Unknown error” after login | The browser could not reach the internal callback. Use the API key option or copy `auth.json` from a trusted machine. |
-| CLI opens a plain bash prompt | The Codex binary was not found. Check the logs; reinstall or run `npm install -g @openai/codex` then restart. |
-| Permissions error writing to `/config/codex` | Ensure the folder exists and is writable (the init script creates it with `chmod 700`). |
-| Want to reset login | Delete `/config/codex/auth.json` and restart (you will be prompted to log in again). |
+- Best option: create an OpenAI API key with Responses API access and set `openai_api_key` in the add-on config. It auto-logs in on start.
+- Alternatively, log in with ChatGPT Plus/Pro/Team on another machine: run `codex login`, then copy `~/.codex/auth.json` to `/config/codex/auth.json` (via File Editor/Studio Code Server). Restart the add-on.
 
-View full logs under **Settings → System → Logs**, or the add-on log tab.
+Credentials (`auth.json`) and prompts (`AGENTS.md`) persist under `/config/codex`; back them up with the rest of your HA config.
 
 ---
 

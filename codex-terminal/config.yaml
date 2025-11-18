@@ -1,5 +1,5 @@
 name: Codex Terminal
-version: "0.3.1"
+version: "0.3.2"
 slug: codex-terminal
 description: Web terminal with preinstalled Codex CLI.
 icon: icon.png
@@ -38,3 +38,4 @@ schema:
 environment:
   LANG: C.UTF-8
 image: ghcr.io/bolltra/codex-terminal-{arch}
+translation: en

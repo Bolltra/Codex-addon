@@ -1,3 +1,7 @@
+## 0.3.2
+- Added English translations for configuration fields with clear labels and option text in the HA UI.
+- Refreshed README instructions (install, usage/start mode, authentication flow).
+
 ## 0.3.1
 - Persist Codex CLI under `/config/codex/.npm-global` so in-session updates survive add-on restarts.
 - Expose persistent npm prefix/cache for Codex sessions and auto-installer.

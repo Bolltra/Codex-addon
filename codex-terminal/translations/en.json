@@ -1,0 +1,25 @@
+{
+  "title": "Codex Terminal",
+  "configuration": {
+    "log_level": {
+      "name": "Log level",
+      "description": "Supervisor log verbosity for this add-on."
+    },
+    "openai_api_key": {
+      "name": "OpenAI API key (optional)",
+      "description": "Paste a key to auto-login with the Responses API. Leave empty if you use ChatGPT login via copied auth.json."
+    },
+    "full_auto": {
+      "name": "Full auto mode",
+      "description": "Run Codex with --full-auto (no per-command approval prompts)."
+    },
+    "start_mode": {
+      "name": "Start mode",
+      "description": "Choose whether to start a new session or open the session picker to resume a previous one.",
+      "options": {
+        "new": "New session",
+        "resume": "Resume (session picker)"
+      }
+    }
+  }
+}
