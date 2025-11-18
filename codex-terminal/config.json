@@ -1,6 +1,6 @@
 {
   "name": "Codex Terminal",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "slug": "codex-terminal",
   "description": "Web terminal with preinstalled Codex CLI.",
   "arch": ["amd64", "aarch64", "armv7"],

@@ -1,3 +1,7 @@
+## 0.3.1
+- Persist Codex CLI under `/config/codex/.npm-global` so in-session updates survive add-on restarts.
+- Expose persistent npm prefix/cache for Codex sessions and auto-installer.
+
 ## 0.3.0
 - Added `full_auto` (launch with `--full-auto`) and `start_mode` (`new` vs `resume`) configuration flags.
 - Codex now runs from `/config`, seeding `AGENTS.md` and persisting auth under `/config/codex`.

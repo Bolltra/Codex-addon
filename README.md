@@ -13,6 +13,9 @@ Bring the official OpenAI Codex CLI straight into Home Assistant. The add-on shi
 - Full access to `/config`, `/share`, `/media`, and `/ssl` so you can review or edit automations on the fly.
 - Credentials and agent prompt stored under `/config/codex` – easy to back up or tweak with File Editor/Studio Code Server.
 - Optional automatic login using an OpenAI API key; manual ChatGPT login also supported.
+- Start mode toggle: launch a fresh session or resume the last one automatically.
+- Full-auto toggle to let Codex execute without per-command approval.
+- Codex CLI installs into `/config/codex/.npm-global`, so in-session updates persist across add-on restarts.
 
 ---
 
@@ -40,12 +43,14 @@ Bring the official OpenAI Codex CLI straight into Home Assistant. The add-on shi
 
 ## Configuration options
 
-The add-on exposes two simple options (UI → Configuration tab):
+The add-on exposes the following options (UI → Configuration tab):
 
-| Option            | Description                                                                                     |
-|-------------------|-------------------------------------------------------------------------------------------------|
-| `log_level`       | Supervisor log level (`info`, `debug`, `warning`, `error`).                                     |
-| `openai_api_key`  | Optional – paste an OpenAI API key to auto-login on start via `codex login --with-api-key`.     |
+| Option            | Description                                                                                                  |
+|-------------------|--------------------------------------------------------------------------------------------------------------|
+| `log_level`       | Supervisor log level (`info`, `debug`, `warning`, `error`).                                                  |
+| `openai_api_key`  | Optional – paste an OpenAI API key to auto-login on start via `codex login --with-api-key`.                  |
+| `start_mode`      | `new` launches a fresh session; `resume` runs `codex resume --last` so you continue where you left off.       |
+| `full_auto`       | When `true`, Codex starts with `--full-auto` (executes without approval prompts, still within Codex sandbox). |
 
 ### Authentication options
 
@@ -88,17 +93,11 @@ You can store additional prompt snippets or reference YAML files in the same fol
    ```
 4. Type `exit` to drop back to a plain shell (still rooted in `/config`).
 
+> When the Ingress session starts Codex checks for updates and can install them automatically. Updates are written to `/config/codex/.npm-global` and persist across add-on restarts.
+
 Codex cannot call Home Assistant services directly; it suggests YAML/scripts/commands you can run or automate yourself.
 
 ---
-
-## Updates & maintenance
-
-- This repository’s GitHub Actions workflow rebuilds images every Monday (03:00 UTC) to bundle the latest `@openai/codex` release.
-- To upgrade manually:
-  1. Pull the latest changes or trigger the workflow.
-  2. In Home Assistant, open the add-on page and click **Update** (or uninstall/reinstall if auto-update is off).
-- Inside the running container you can also run `npm install -g @openai/codex` and restart the add-on.
 
 Credentials (`auth.json`) and prompts (`AGENTS.md`) persist under `/config/codex`; back them up with the rest of your HA config.
 

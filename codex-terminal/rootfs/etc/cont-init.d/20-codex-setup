@@ -4,10 +4,29 @@ set -euo pipefail
 bashio::log.info "Preparing Codex CLI environment."
 
 HOME_DIR="${CODEX_HOME:-/config/codex}"
-mkdir -p "${HOME_DIR}"
+NPM_PREFIX="${HOME_DIR}/.npm-global"
+NPM_CACHE="${HOME_DIR}/.npm-cache"
+BIN_DIR="${NPM_PREFIX}/bin"
+
+mkdir -p "${HOME_DIR}" "${BIN_DIR}" "${NPM_CACHE}"
 chown root:root "${HOME_DIR}"
 chmod 700 "${HOME_DIR}"
+
 export CODEX_HOME="${HOME_DIR}"
+export NPM_CONFIG_PREFIX="${NPM_PREFIX}"
+export NPM_CONFIG_CACHE="${NPM_CACHE}"
+export PATH="${BIN_DIR}:${PATH}"
+
+if [ ! -x "${BIN_DIR}/codex" ]; then
+    bashio::log.info "Installing Codex CLI persistently under ${BIN_DIR}."
+    if HOME="${HOME_DIR}" npm install -g @openai/codex >/tmp/codex-install.log 2>&1; then
+        bashio::log.info "Codex CLI installed persistently."
+    else
+        bashio::log.warning "Failed to install Codex CLI persistently; see /tmp/codex-install.log. Falling back to bundled version."
+    fi
+else
+    bashio::log.info "Persistent Codex CLI already present; skipping install."
+fi
 
 API_KEY="$(bashio::config 'openai_api_key')"
 if [ -n "${API_KEY}" ]; then

@@ -3,6 +3,10 @@ set -euo pipefail
 
 PORT=7681
 
+export NPM_CONFIG_PREFIX="/config/codex/.npm-global"
+export NPM_CONFIG_CACHE="/config/codex/.npm-cache"
+export PATH="${NPM_CONFIG_PREFIX}/bin:${PATH}"
+
 if ! command -v ttyd >/dev/null 2>&1; then
     bashio::log.fatal "ttyd is missing inside the container."
     exit 1
