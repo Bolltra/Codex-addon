@@ -1,3 +1,6 @@
+## 0.3.3
+- Ensure login shells keep Codex's persistent npm prefix first in PATH, preventing repeated update prompts across reconnects.
+
 ## 0.3.2
 - Added English translations for configuration fields with clear labels and option text in the HA UI.
 - Refreshed README instructions (install, usage/start mode, authentication flow).

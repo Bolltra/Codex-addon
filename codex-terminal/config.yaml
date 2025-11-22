@@ -1,5 +1,5 @@
 name: Codex Terminal
-version: "0.3.2"
+version: "0.3.3"
 slug: codex-terminal
 description: Web terminal with preinstalled Codex CLI.
 icon: icon.png
